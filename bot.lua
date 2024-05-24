@@ -196,8 +196,9 @@ Handlers.add(
     "RegisterAfterEjedted",
     Handlers.utils.hasMatchingTag("Action", "Ejected"),
     function (msg)
-        print(colors.gray .. "Get Rejected by Game, Registering and AutoPay...")
+        print(colors.gray .. "Get Rejected by Game, Registering and AutoPay and fetch the game state..." .. colors.reset)
         ao.send({Target = Game, Action = "Register"})
         ao.send({Target = ao.id, Action = "AutoPay"})
+        ao.send({Target = Game, Action = "GetGameState"})
     end
 )
