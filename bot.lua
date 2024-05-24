@@ -67,7 +67,7 @@ function decideNextAction()
 
     -- Logic for bot
     if mychar.health < 10 then
-        print(colors.red .. "Run from the battle or we lose, retreat to " .. randomDirection .. colors.reset)
+        print(colors.red .. "Run from the battle or we lose, retreat to " .. randomDirection .. "(" .. mychar.x .. ", ".. mychar.y .. ")" .. colors.reset)
         ao.send({ Target = Game, Action = "PlayerMove", Player = ao.id, Direction = randomDirectionMap[randomIndex] })
     elseif
         mychar.energy > 10 and targetInRange then
@@ -75,22 +75,22 @@ function decideNextAction()
         ao.send({ Target = Game, Action = "PlayerAttack", Player = ao.id, AttackEnergy = tostring(player.energy) })
     elseif
         mychar.x == avoidUp then
-        print(colors.red .. "We find the good direction, and avoid up to the center battle. " .. randomAvoidUpDirection .. colors.reset)
+        print(colors.red .. "We find the good direction, and avoid up to the center battle. " .. randomAvoidUpDirection .. "(" .. mychar.x .. ", ".. mychar.y .. ")" .. colors.reset)
         ao.send({ Target = Game, Action = "PlayerMove", Player = ao.id, Direction = directionAvoidUp[randomIndexAvoidUp] })
     elseif
         mychar.x == avoidDown then
-        print(colors.red .. "We find the good direction, and avoid down to the center battle. " .. randomAvoidDownDirection .. colors.reset)
+        print(colors.red .. "We find the good direction, and avoid down to the center battle. " .. randomAvoidDownDirection .. "(" .. mychar.x .. ", ".. mychar.y .. ")" .. colors.reset)
         ao.send({ Target = Game, Action = "PlayerMove", Player = ao.id, Direction = directionAvoidDown[randomIndexAvoidDown] })
     elseif
         mychar.y == avoidLeft then
-        print(colors.red .. "We find the good direction, and avoid left to the center battle. " .. randomAvoidLeftDirection .. colors.reset)
+        print(colors.red .. "We find the good direction, and avoid left to the center battle. " .. randomAvoidLeftDirection .. "(" .. mychar.x .. ", ".. mychar.y .. ")" .. colors.reset)
         ao.send({ Target = Game, Action = "PlayerMove", Player = ao.id, Direction = directionAvoidLeft[randomIndexAvoidLeft] })
     elseif
         mychar.y == avoidRight then
-        print(colors.red .. "We find the good direction, and avoid right to the center battle. " .. randomAvoidRightDirection .. colors.reset)
+        print(colors.red .. "We find the good direction, and avoid right to the center battle. " .. randomAvoidRightDirection .. "(" .. mychar.x .. ", ".. mychar.y .. ")" .. colors.reset)
         ao.send({ Target = Game, Action = "PlayerMove", Player = ao.id, Direction = directionAvoidRight[randomIndexAvoidRight] })
     else
-        print(colors.red .. "I dont know where am i, and where are our enemy move to " .. randomDirection .. colors.reset)
+        print(colors.red .. "I dont know where am i, and where are our enemy move to " .. randomDirection .. "(" .. mychar.x .. ", ".. mychar.y .. ")".. colors.reset)
         ao.send({ Target = Game, Action = "PlayerMove", Player = ao.id, Direction = randomDirectionMap[randomIndex] })
     end
     InAction = false -- InAction logic added
@@ -133,8 +133,9 @@ Handlers.add(
   "AutoPay",
   Handlers.utils.hasMatchingTag("Action", "AutoPay"),
   function (msg)
-    print("Auto-paying confirmation fees.")
+    print("Auto-paying confirmation fees and get the game state.")
     ao.send({ Target = Game, Action = "Transfer", Recipient = Game, Quantity = "1000"})
+    ao.send({Target = Game, Action = "GetGameState"})
   end
 )
 
